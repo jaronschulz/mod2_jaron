@@ -1,0 +1,14 @@
+{
+  "name": "playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "server": "live-server"
+  },
+  "author": "Christoph Nissen",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}

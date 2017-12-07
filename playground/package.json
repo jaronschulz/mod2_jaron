@@ -1,0 +1,19 @@
+{
+  "name": "mod2_jaron",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaronschulz/mod2_jaron.git"
+  },
+  "author": "jaron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaronschulz/mod2_jaron/issues"
+  },
+  "homepage": "https://github.com/jaronschulz/mod2_jaron#readme",
+  "description": ""
+}

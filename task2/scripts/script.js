@@ -32,13 +32,13 @@ function DataHandler() {
     this.rawData = "";
     this.members = [];
     this.filterStatus = {
-    	"D": true,
-    	"I": true,
-    	"R": true,
-    	"state":""
+        "D": true,
+        "I": true,
+        "R": true,
+        "state": ""
     };
 
-    // 1. Find out on wich page we are and store into vars
+    //Find out on wich page we are and store into vars
     this.init = function() {
 
         console.log('initilizing')
@@ -47,14 +47,15 @@ function DataHandler() {
         this.jsonURL = "data/congress-113-" + this.chamber + ".json";
 
         console.log(this.jsonURL + " loaded");
-        this.loadJsonFile();
+        this.loadMembersJson();
+        this.loadStateJson();
         this.changeListener();
 
     }
 
 
-    // 2. Depending on the Page, we load data into var & call createTable
-    this.loadJsonFile = function() {
+    //Depending on the Page, we load rawData & call createTable
+    this.loadMembersJson = function() {
         var that = this;
         $.getJSON(that.jsonURL, function(response) {
             that.rawData = response;
@@ -63,7 +64,24 @@ function DataHandler() {
         });
     }
 
-    // 2.a. Converting data (Party)
+    // Loading States
+    this.loadStateJson = function() {
+    	var that = this;
+    	var optionsArr = [];
+    	$.getJSON('data/states.json', function (response) {
+    		$(response).each(function(i){
+    			response[i];
+    			var option = $("<option>").attr('value', response[i].code).text(response[i].name);
+    			optionsArr.push(option);
+    		});
+
+    		$("#statesFilter").append(optionsArr);
+
+    		console.log(optionsArr)
+    	})
+    }
+
+    //Converting data (Party)
 
     this.convertParty = function(party) {
 
@@ -103,37 +121,39 @@ function DataHandler() {
         $("table tbody").html("").append(rowArray);
     }
 
-    // 4. Filter data with checkboxes (Parties)
+    // Filter 
     this.filterMembers = function(members) {
         var that = this;
-        return members.filter(function (member) {
-        	if (!that.filterStatus[member.party]) {
-	        	return false;
+        
+        return members.filter(function(member) {
 
-    	    }
-	// 5. State-Status .... coming soon ;) 
-        	return true;	
+            if (!that.filterStatus[member.party]) {
+                return false;
+
+    		}else if (that.filterStatus.state && member.state != that.filterStatus.state) {
+    			return false;
+    		} else {
+    			
+            return true;
+    		}
+    			
+    		
         })
     }
 
-    this.changeListener = function(){
-    	var that = this;
-    $("input, select").on('change', function () {
-    // .. update the SSOT, 
-    	that.filterStatus.I = $("#I").is(':checked');
-    	that.filterStatus.R = $("#R").is(':checked');
-    	that.filterStatus.D = $("#D").is(':checked');
-    // .. call createTable
-    	that.createTable();
-    
-    })
+    this.changeListener = function() {
+        var that = this;
+        $("input, select").on('change', function() {
+            // .. update the SSOT, 
+            that.filterStatus.I = $("#I").is(':checked');
+            that.filterStatus.R = $("#R").is(':checked');
+            that.filterStatus.D = $("#D").is(':checked');
+            that.filterStatus.state = $("#statesFilter").val();
+            // .. call createTable
+            that.createTable();
+
+        })
     }
-
-
-
-
-
-
 };
 
 var dataHandler = new DataHandler();
@@ -141,5 +161,3 @@ var dataHandler = new DataHandler();
 $(function() {
     dataHandler.init();
 })
-
-
