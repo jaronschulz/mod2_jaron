@@ -130,9 +130,11 @@ function DataHandler() {
             if (!that.filterStatus[member.party]) {
                 return false;
 
-    		}else if (that.filterStatus.state && member.state != that.filterStatus.state) {
+    		}
+    		else if (that.filterStatus.state && member.state != that.filterStatus.state) {
     			return false;
-    		} else {
+    		}
+    		else {
     			
             return true;
     		}
