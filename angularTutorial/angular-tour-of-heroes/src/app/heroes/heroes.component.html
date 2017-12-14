@@ -2,11 +2,13 @@
 
   My Heroes</h2>
 <ul class="heroes">
-  <li *ngFor="let hero of heroes" 
-  (click)="onSelect(hero)" 
-  [class.selected]="hero === selectedHero">
-    <span class="badge">{{hero.id}}</span> {{hero.name}}
-  </li>
+  <ul class="heroes">
+    <li *ngFor="let hero of heroes">
+      <a routerLink="/detail/{{hero.id}}">
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+      </a>
+    </li>
+  </ul>
 </ul>
 
 <!-- <div *ngIf="selectedHero">
@@ -19,4 +21,3 @@
     </label>
   </div>
 </div> -->
-<app-hero-detail [hero]="selectedHero"></app-hero-detail>
